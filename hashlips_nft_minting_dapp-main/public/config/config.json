@@ -1,0 +1,18 @@
+{
+  "CONTRACT_ADDRESS": "0xC49dB55Aea26f82e7c42b6A8c51a756E3a78A550",
+  "SCAN_LINK": "https://polygonscan.com/token/0xc49db55aea26f82e7c42b6a8c51a756e3a78a550",
+  "NETWORK": {
+    "NAME": "Polygon",
+    "SYMBOL": "Matic",
+    "ID": 137
+  },
+  "NFT_NAME": "Kangeki",
+  "SYMBOL": "KG",
+  "MAX_SUPPLY": 40,
+  "WEI_COST": 50000000000000000,
+  "DISPLAY_COST": 0.05,
+  "GAS_LIMIT": 285000,
+  "MARKETPLACE": "Opeansea",
+  "MARKETPLACE_LINK": "/",
+  "SHOW_BACKGROUND": true
+}
