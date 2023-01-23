@@ -8,10 +8,16 @@ let allowlistAddresses = [
 
 const leafNodes = allowlistAddresses.map(address => keccak256(address));
 const merkleTree = new MerkleTree(leafNodes, keccak256, { sortPairs: true });
-
 // console.log(leafNodes);
 // console.log(merkleTree);
 
 const rootHash = merkleTree.getRoot();
-console.log("Allowlist Merkle Tree\n", merkleTree.toString());
-console.log("Root Hash", rootHash);
+// console.log("Allowlist Merkle Tree\n", merkleTree.toString());
+// console.log("Root Hash", rootHash);
+
+const claiminingAddress = leafNodes[2];
+const hexProof = merkleTree.getHexProof(claiminingAddress);
+
+console.log(hexProof, claiminingAddress, rootHash)//ここから始める
+
+console.log(merkleTree.verify(hexProof, claiminingAddress, rootHash))
