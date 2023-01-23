@@ -9,5 +9,9 @@ let allowlistAddresses = [
 const leafNodes = allowlistAddresses.map(address => keccak256(address));
 const merkleTree = new MerkleTree(leafNodes, keccak256, { sortPairs: true });
 
-console.log(leafNodes)
-console.log(merkleTree)
+// console.log(leafNodes);
+// console.log(merkleTree);
+
+const rootHash = merkleTree.getRoot();
+console.log("Allowlist Merkle Tree\n", merkleTree.toString());
+console.log("Root Hash", rootHash);
