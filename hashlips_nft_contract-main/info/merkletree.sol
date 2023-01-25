@@ -40,9 +40,7 @@ contract kangeki_contract is ERC721A, Ownable {
     bool public paused = true;
     bool public onlyAllowlisted = true;
     bytes32 public merkleRoot;
-    mapping(address => uint256) public allowlistUserAmount;
     mapping(address => uint256) public userMintedAmount;
-    
 
     constructor() ERC721A('Kangeki', 'KG') {
         setBaseURI('ipfs://QmWC1Ai5JBf1CbvHF3SXVp1vxecPdfF7RkKz1oG4rVrR3u/');
@@ -51,7 +49,6 @@ contract kangeki_contract is ERC721A, Ownable {
     // internal
     function _baseURI() internal view virtual override returns (string memory) {
         return baseURI;
-        
     }
 
     // mint with merkle tree algorithm
@@ -96,13 +93,6 @@ contract kangeki_contract is ERC721A, Ownable {
 
     function setMerkleRoot(bytes32 _merkleRoot) public onlyOwner {
         merkleRoot = _merkleRoot;
-    }
-
-    function setAllowlist(address[] memory addresses, uint256[] memory saleSupplies) public onlyOwner {
-        require(addresses.length == saleSupplies.length);
-        for (uint256 i = 0; i < addresses.length; i++) {
-            allowlistUserAmount[addresses[i]] = saleSupplies[i];
-        }
     }
 
 
