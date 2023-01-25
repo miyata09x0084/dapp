@@ -14,10 +14,10 @@ console.log(merkleTree);
 
 const rootHash = merkleTree.getRoot();
 console.log("Allowlist Merkle Tree\n", merkleTree.toString());
-console.log("Root Hash", "0x" + rootHash.toString("hex"));
+console.log("Root Hash ; \n", "0x" + rootHash.toString("hex"));
 
 const claiminingAddress = ethers.utils.solidityKeccak256(['address', 'uint256'], [allowlistAddresses[0][0], allowlistAddresses[0][1]]);
-console.log(claiminingAddress)
+console.log("claiminingAddress ; ", claiminingAddress)
 
 const hexProof = merkleTree.getHexProof(claiminingAddress);
 console.log("hexProof ; \n", hexProof)
