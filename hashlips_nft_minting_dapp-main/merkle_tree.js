@@ -12,7 +12,9 @@ const rootHash = merkleTree.getRoot();
 console.log("Allowlist Merkle Tree\n", merkleTree.toString());
 console.log("Root Hash ; \n", "0x" + rootHash.toString("hex"));
 
-const claiminingAddress = ethers.utils.solidityKeccak256(['address', 'uint256'], [allowlistAddresses[0][0], allowlistAddresses[0][1]]);
+const onlyFirst = allowlistAddresses.map( pick => pick[0] );
+const addressId = onlyFirst.indexOf(allowlistAddresses[0][0]);
+const claiminingAddress = ethers.utils.solidityKeccak256(['address', 'uint256'], [allowlistAddresses[addressId][0], allowlistAddresses[addressId][1]]);
 console.log("claiminingAddress ; ", claiminingAddress)
 
 const hexProof = merkleTree.getHexProof(claiminingAddress);
