@@ -1,9 +1,9 @@
 {
-  "CONTRACT_ADDRESS": "0xeD08581cff4cb18c7DBd8396A52cC528AbD29A83",
-  "SCAN_LINK": "https://polygonscan.com/token/0xc49db55aea26f82e7c42b6a8c51a756e3a78a550",
+  "CONTRACT_ADDRESS": "0xC0C010C80a6f1aD8B2a9e0b50efC5D7D0D0F6Bbc",
+  "SCAN_LINK": "https://polygonscan.com/token/0xc0c010c80a6f1ad8b2a9e0b50efc5d7d0d0f6bbc",
   "NETWORK": {
-    "NAME": "Goerli",
-    "SYMBOL": "Eth",
+    "NAME": "Polygon",
+    "SYMBOL": "Matic",
     "ID": 5
   },
   "NFT_NAME": "Kangeki",
