@@ -5,9 +5,10 @@ const initialState = {
   error: false,
   errorMsg: "",
   paused: true,
+  userMintedAmount: 0,
   onlyAllowlisted: true,
-  allowlistUserAmount: 1,
-  allowlistMintedAmount: 0,
+  maxMintAmountPerTransaction: 1,
+  publicSaleMaxMintAmountPerAddress: 1,
 };
 
 const dataReducer = (state = initialState, action) => {
@@ -17,7 +18,7 @@ const dataReducer = (state = initialState, action) => {
         ...state,
         loading: true,
         error: false,
-        errorMsg: "",
+        errorMsg: "", 
       };
     case "CHECK_DATA_SUCCESS":
       return {
@@ -27,8 +28,9 @@ const dataReducer = (state = initialState, action) => {
         // cost: action.payload.cost,
         paused: action.payload.paused,
         onlyAllowlisted: action.payload.onlyAllowlisted,
-        allowlistUserAmount: action.payload.allowlistUserAmount,
-        allowlistMintedAmount: action.payload.allowlistMintedAmount,
+        userMintedAmount: action.payload.userMintedAmount,
+        maxMintAmountPerTransaction: action.payload.maxMintAmountPerTransaction,
+        publicSaleMaxMintAmountPerAddress: action.payload.publicSaleMaxMintAmountPerAddress,
         error: false,
         errorMsg: "",
       };

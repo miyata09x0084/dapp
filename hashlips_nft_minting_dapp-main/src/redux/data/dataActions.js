@@ -38,27 +38,27 @@ export const fetchData = () => {
         .getState()
         .blockchain.smartContract.methods.onlyAllowlisted()
         .call();
-      let allowlistUserAmount = await store
+      let userMintedAmount = await store
         .getState()
-        .blockchain.smartContract.methods.allowlistUserAmount(blockchain.account)
+        .blockchain.smartContract.methods.userMintedAmount(blockchain.account)
         .call();
-      let allowlistMintedAmount = await store
+      let maxMintAmountPerTransaction = await store
         .getState()
-        .blockchain.smartContract.methods.allowlistMintedAmount(blockchain.account)
+        .blockchain.smartContract.methods.maxMintAmountPerTransaction()
         .call();
-      // let cost = await store
-      //   .getState()
-      //   .blockchain.smartContract.methods.cost()
-      //   .call();
+      let publicSaleMaxMintAmountPerAddress = await store
+        .getState()
+        .blockchain.smartContract.methods.publicSaleMaxMintAmountPerAddress()
+        .call();
 
       dispatch(
         fetchDataSuccess({
           totalSupply,
           paused,
           onlyAllowlisted,
-          allowlistUserAmount,
-          allowlistMintedAmount,
-          // cost,
+          userMintedAmount,
+          maxMintAmountPerTransaction,
+          publicSaleMaxMintAmountPerAddress,
         })
       );
     } catch (err) {

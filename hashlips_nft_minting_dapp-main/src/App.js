@@ -4,6 +4,11 @@ import { connect } from "./redux/blockchain/blockchainActions";
 import { fetchData } from "./redux/data/dataActions";
 import * as s from "./styles/globalStyles";
 import styled from "styled-components";
+import { allowlistAddresses } from "./allowlist";
+
+const { ethers } = require("ethers");
+const { MerkleTree } = require("merkletreejs");
+const keccak256 = require('keccak256');
 
 const truncate = (input, len) =>
   input.length > len ? `${input.substring(0, len)}...` : input;
@@ -101,6 +106,7 @@ function App() {
   const [claimingNft, setClaimingNft] = useState(false);
   const [feedback, setFeedback] = useState(`購入ボタンを押してミントしてください。`);
   const [mintAmount, setMintAmount] = useState(1);
+  const [allowlistUserAmountData, setAllowlistUserAmountData] = useState(0);
   const [CONFIG, SET_CONFIG] = useState({
     CONTRACT_ADDRESS: "",
     SCAN_LINK: "",
@@ -119,18 +125,40 @@ function App() {
     MARKETPLACE_LINK: "",
     SHOW_BACKGROUND: false,
   });
+  let leafNodes;
+  let merkleTree;
+  let onlyFirst;
+  let addressId = -1;
+  let claiminingAddress;
+  let hexProof;
 
   const claimNFTs = () => {
     let cost = CONFIG.WEI_COST;
     let gasLimit = CONFIG.GAS_LIMIT;
     let totalCostWei = String(cost * mintAmount);
     let totalGasLimit = String(gasLimit * mintAmount);
+    let allowlistMaxMintAmount;
+
+    leafNodes = allowlistAddresses.map(addr => ethers.utils.solidityKeccak256(['address', 'uint256'], [addr[0], addr[1]]));
+    merkleTree = new MerkleTree(leafNodes, keccak256, { sortPairs: true });
+    onlyFirst = allowlistAddresses.map(pick => pick[0]);
+    addressId = onlyFirst.indexOf(allowlistAddresses[0][0]);
+    if (addressId == -1) {
+      allowlistMaxMintAmount = 0;
+      claiminingAddress = ethers.utils.solidityKeccak256(['address', 'uint256'], [allowlistAddresses[0][0], allowlistAddresses[0][1]]);
+      hexProof = merkleTree.getHexProof(claiminingAddress);
+    } else {
+      allowlistMaxMintAmount = allowlistAddresses[addressId][1];
+      claiminingAddress = ethers.utils.solidityKeccak256(['address', 'uint256'], [allowlistAddresses[addressId][0], allowlistAddresses[addressId][1]]);
+      hexProof = merkleTree.getHexProof(claiminingAddress);
+    }
+
     console.log("Cost: ", totalCostWei);
     console.log("Gas limit: ", totalGasLimit);
-    setFeedback(`Minting your ${CONFIG.NFT_NAME}...`);
+    setFeedback(`${CONFIG.NFT_NAME}をミントしています。しばらくお待ちください。`);
     setClaimingNft(true);
     blockchain.smartContract.methods
-      .mint(mintAmount)
+      .mint(mintAmount, allowlistMaxMintAmount, hexProof)
       .send({
         gasLimit: String(totalGasLimit),
         to: CONFIG.CONTRACT_ADDRESS,
@@ -163,9 +191,9 @@ function App() {
   const incrementMintAmount = () => {
     let newMintAmount = mintAmount + 1;
     if (data.onlyAllowlisted == true) {
-      if (data.allowlistUserAmount !== 0) {
-        if (data.allowlistUserAmount > data.allowlistMintedAmount) {
-          newMintAmount = data.allowlistUserAmount - data.allowlistMintedAmount;
+      if (allowlistUserAmountData !== 0) {
+        if (allowlistUserAmountData > data.userMintedAmount) {
+          newMintAmount = allowlistUserAmountData - data.userMintedAmount;
         } else {
           newMintAmount = 1;
         }
@@ -177,6 +205,18 @@ function App() {
     }
     setMintAmount(newMintAmount);
   };
+
+  const getMerkleUserAmountData = () => {
+    if (blockchain.account !== "" && blockchain.smartContract !== null) {
+      onlyFirst = allowlistAddresses.map(pick => pick[0].toLowerCase());
+      addressId = onlyFirst.indexOf(blockchain.account);
+      if (addressId == -1) {
+        setAllowlistUserAmountData(0);
+      } else  {
+        setAllowlistUserAmountData(allowlistAddresses[addressId][1]);
+      }
+    }
+  }
 
   const getData = () => {
     if (blockchain.account !== "" && blockchain.smartContract !== null) {
@@ -202,6 +242,13 @@ function App() {
   useEffect(() => {
     getData();
   }, [blockchain.account]);
+
+  useEffect(() => {
+    getMerkleUserAmountData();
+  }, [data.loading]);
+
+  console.log("allowlistUserAmountData;", allowlistUserAmountData)
+  console.log("userMintedAmount;", data.userMintedAmount)
 
   return (
     <s.Screen>
@@ -330,10 +377,10 @@ function App() {
                         ? "読み込み中です。しばらくお待ちください。"
                         : (data.paused == false
                           ? ( data.onlyAllowlisted == true
-                            ? (data.allowlistUserAmount == 0
+                            ? (allowlistUserAmountData == 0
                               ? "接続したウォレットはアローリストに登録されていません。"
-                              : (data.allowlistUserAmount !== data.allowlistMintedAmount
-                                ? (feedback + "あと" + (data.allowlistUserAmount - data.allowlistMintedAmount) + "枚ミントできます。")
+                              : (0 < allowlistUserAmountData - data.userMintedAmount
+                                ? (feedback + "あと" + (allowlistUserAmountData - data.userMintedAmount) + "枚ミントできます。")
                                 : "ミントの上限枚数に達しました" ) )
                             : feedback )
                           : "現在ミントは停止中です。")}
@@ -379,9 +426,9 @@ function App() {
                                    ? 1
                                    : (data.paused == false
                                     ? ( data.onlyAllowlisted == true
-                                      ? (data.allowlistUserAmount == 0
+                                      ? (allowlistUserAmountData == 0
                                         ? 1
-                                        : (data.allowlistUserAmount !== data.allowlistMintedAmount
+                                        : (allowlistUserAmountData !== data.userMintedAmount
                                           ? 0
                                           : 1 ) )
                                       : 0 )
@@ -396,9 +443,9 @@ function App() {
                         ? "読み込み中"
                         : (data.paused == false
                           ? ( data.onlyAllowlisted == true
-                            ? (data.allowlistUserAmount == 0
+                            ? (allowlistUserAmountData == 0
                               ? "STOP"
-                              : (data.allowlistUserAmount !== data.allowlistMintedAmount
+                              : (allowlistUserAmountData !== data.userMintedAmount
                                 ? "MINT"
                                 : "STOP" ) )
                             : "MINT" )
