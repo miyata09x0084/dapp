@@ -144,6 +144,11 @@ function App() {
     merkleTree = new MerkleTree(leafNodes, keccak256, { sortPairs: true });
     onlyFirst = allowlistAddresses.map(pick => pick[0]);
     addressId = onlyFirst.indexOf(allowlistAddresses[0][0]);
+    addressId = onlyFirst.indexOf(blockchain.account);
+    console.log("allowlistAddresses", allowlistAddresses)
+    console.log("account", blockchain.account)
+    console.log("onlyFirst", onlyFirst)
+    console.log("addressId", addressId)
     if (addressId == -1) {
       allowlistMaxMintAmount = 0;
       claiminingAddress = ethers.utils.solidityKeccak256(['address', 'uint256'], [allowlistAddresses[0][0], allowlistAddresses[0][1]]);
@@ -152,6 +157,9 @@ function App() {
       allowlistMaxMintAmount = allowlistAddresses[addressId][1];
       claiminingAddress = ethers.utils.solidityKeccak256(['address', 'uint256'], [allowlistAddresses[addressId][0], allowlistAddresses[addressId][1]]);
       hexProof = merkleTree.getHexProof(claiminingAddress);
+      console.log("allowlistMaxMintAmount", allowlistMaxMintAmount)
+      console.log("claiminingAddress", claiminingAddress)
+      console.log("hexProof", hexProof)
     }
 
     console.log("Cost: ", totalCostWei);
@@ -433,6 +441,7 @@ function App() {
                                       ? (allowlistUserAmountData == 0
                                         ? 1
                                         : (allowlistUserAmountData !== data.userMintedAmount
+                                        : (0 < allowlistUserAmountData - data.userMintedAmount
                                           ? 0
                                           : 1 ) )
                                       : 0 )
@@ -450,6 +459,7 @@ function App() {
                             ? (allowlistUserAmountData == 0
                               ? "STOP"
                               : (allowlistUserAmountData !== data.userMintedAmount
+                              : (0 < allowlistUserAmountData - data.userMintedAmount
                                 ? "MINT"
                                 : "STOP" ) )
                             : "MINT" )
