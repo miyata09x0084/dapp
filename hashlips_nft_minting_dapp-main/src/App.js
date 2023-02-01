@@ -322,6 +322,7 @@ function App() {
                   style={{ textAlign: "center", color: "var(--accent-text)" }}
                 >
                   1 {CONFIG.SYMBOL} costs {CONFIG.DISPLAY_COST}{" "}
+                  {CONFIG.SYMBOL} 1枚につき{CONFIG.DISPLAY_COST}{" "}
                   {CONFIG.NETWORK.SYMBOL}.
                 </s.TextTitle>
                 <s.SpacerXSmall />
@@ -329,6 +330,7 @@ function App() {
                   style={{ textAlign: "center", color: "var(--accent-text)" }}
                 >
                   Excluding gas fees.
+                  別途ガス代がかかります.
                 </s.TextDescription>
                 <s.SpacerSmall />
                 {blockchain.account === "" ||
@@ -341,6 +343,7 @@ function App() {
                       }}
                     >
                       Connect to the {CONFIG.NETWORK.NAME} network
+                      {CONFIG.NETWORK.NAME} ネットワークに接続してください。
                     </s.TextDescription>
                     <s.SpacerSmall />
                     <StyledButton
@@ -478,6 +481,7 @@ function App() {
             Please make sure you are connected to the right network (
             {CONFIG.NETWORK.NAME} Mainnet) and the correct address. Please note:
             Once you make the purchase, you cannot undo this action.
+            正しいネットワークに接続されているか({CONFIG.NETWORK.NAME})、正しいアドレスに接続されているかをご確認ください。一度購入すると、この操作を元に戻すことはできません。
           </s.TextDescription>
           <s.SpacerSmall />
           <s.TextDescription
@@ -489,6 +493,7 @@ function App() {
             We have set the gas limit to {CONFIG.GAS_LIMIT} for the contract to
             successfully mint your NFT. We recommend that you don't lower the
             gas limit.
+            ガス代が低すぎると失敗することがあります。ガス代を高めに設定することをお勧めします。
           </s.TextDescription>
         </s.Container>
       </s.Container>
