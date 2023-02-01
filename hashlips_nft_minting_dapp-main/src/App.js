@@ -218,6 +218,7 @@ function App() {
   const getMerkleUserAmountData = () => {
     if (blockchain.account !== "" && blockchain.smartContract !== null) {
       onlyFirst = allowlistAddresses.map(pick => pick[0].toLowerCase());
+      onlyFirst = allowlistAddresses.map(pick => pick[0]);
       addressId = onlyFirst.indexOf(blockchain.account);
       if (addressId == -1) {
         setAllowlistUserAmountData(0);
