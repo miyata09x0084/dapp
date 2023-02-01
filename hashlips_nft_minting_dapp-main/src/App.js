@@ -17,7 +17,6 @@ export const StyledButton = styled.button`
   padding: 10px;
   border-radius: 50px;
   border: none;
-  background-color: var(--secondary);
   background-color: var(--button);
   padding: 10px;
   font-weight: bold;
@@ -143,7 +142,6 @@ function App() {
     leafNodes = allowlistAddresses.map(addr => ethers.utils.solidityKeccak256(['address', 'uint256'], [addr[0], addr[1]]));
     merkleTree = new MerkleTree(leafNodes, keccak256, { sortPairs: true });
     onlyFirst = allowlistAddresses.map(pick => pick[0]);
-    addressId = onlyFirst.indexOf(allowlistAddresses[0][0]);
     addressId = onlyFirst.indexOf(blockchain.account);
     console.log("allowlistAddresses", allowlistAddresses)
     console.log("account", blockchain.account)
@@ -217,7 +215,6 @@ function App() {
 
   const getMerkleUserAmountData = () => {
     if (blockchain.account !== "" && blockchain.smartContract !== null) {
-      onlyFirst = allowlistAddresses.map(pick => pick[0].toLowerCase());
       onlyFirst = allowlistAddresses.map(pick => pick[0]);
       addressId = onlyFirst.indexOf(blockchain.account);
       if (addressId == -1) {
@@ -257,9 +254,6 @@ function App() {
     getMerkleUserAmountData();
   }, [data.loading]);
 
-  console.log("allowlistUserAmountData;", allowlistUserAmountData)
-  console.log("userMintedAmount;", data.userMintedAmount)
-
   return (
     <s.Screen>
       <s.Container
@@ -284,7 +278,6 @@ function App() {
               padding: 24,
               borderRadius: 24,
               border: "4px dashed var(--secondary)",
-              boxShadow: "0px 5px 11px 2px rgba(0,0,0,0.7)",
               boxShadow: "0px 5px 11px 2px rgba(0,0,0,0.1)",
             }}
           >
@@ -331,7 +324,6 @@ function App() {
                 <s.TextTitle
                   style={{ textAlign: "center", color: "var(--accent-text)" }}
                 >
-                  1 {CONFIG.SYMBOL} costs {CONFIG.DISPLAY_COST}{" "}
                   {CONFIG.SYMBOL} 1枚につき{CONFIG.DISPLAY_COST}{" "}
                   {CONFIG.NETWORK.SYMBOL}.
                 </s.TextTitle>
@@ -339,7 +331,6 @@ function App() {
                 <s.TextDescription
                   style={{ textAlign: "center", color: "var(--accent-text)" }}
                 >
-                  Excluding gas fees.
                   別途ガス代がかかります.
                 </s.TextDescription>
                 <s.SpacerSmall />
@@ -352,7 +343,6 @@ function App() {
                         color: "var(--accent-text)",
                       }}
                     >
-                      Connect to the {CONFIG.NETWORK.NAME} network
                       {CONFIG.NETWORK.NAME} ネットワークに接続してください。
                     </s.TextDescription>
                     <s.SpacerSmall />
@@ -442,7 +432,6 @@ function App() {
                                     ? ( data.onlyAllowlisted == true
                                       ? (allowlistUserAmountData == 0
                                         ? 1
-                                        : (allowlistUserAmountData !== data.userMintedAmount
                                         : (0 < allowlistUserAmountData - data.userMintedAmount
                                           ? 0
                                           : 1 ) )
@@ -460,7 +449,6 @@ function App() {
                           ? ( data.onlyAllowlisted == true
                             ? (allowlistUserAmountData == 0
                               ? "STOP"
-                              : (allowlistUserAmountData !== data.userMintedAmount
                               : (0 < allowlistUserAmountData - data.userMintedAmount
                                 ? "MINT"
                                 : "STOP" ) )
@@ -490,9 +478,6 @@ function App() {
               color: "var(--primary-text)",
             }}
           >
-            Please make sure you are connected to the right network (
-            {CONFIG.NETWORK.NAME} Mainnet) and the correct address. Please note:
-            Once you make the purchase, you cannot undo this action.
             正しいネットワークに接続されているか({CONFIG.NETWORK.NAME})、正しいアドレスに接続されているかをご確認ください。一度購入すると、この操作を元に戻すことはできません。
           </s.TextDescription>
           <s.SpacerSmall />
@@ -502,9 +487,6 @@ function App() {
               color: "var(--primary-text)",
             }}
           >
-            We have set the gas limit to {CONFIG.GAS_LIMIT} for the contract to
-            successfully mint your NFT. We recommend that you don't lower the
-            gas limit.
             ガス代が低すぎると失敗することがあります。ガス代を高めに設定することをお勧めします。
           </s.TextDescription>
         </s.Container>
