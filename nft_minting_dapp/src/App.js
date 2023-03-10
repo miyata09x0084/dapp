@@ -83,9 +83,7 @@ export const HeaderWrapper = styled.div`
 `;
 
 export const StyledImg = styled.img`
-  box-shadow: 0px 5px 11px 2px rgba(0, 0, 0, 0.7);
   background-color: var(--accent);
-  border-radius: 100%;
   width: 200px;
   @media (min-width: 900px) {
     width: 250px;
@@ -297,6 +295,10 @@ function App() {
               >
               OnChainNFT
             </s.StyledLogo>
+            <s.SpacerSmall />
+              <s.Container flex={1} jc={"center"} ai={"center"}>
+                <StyledImg alt={"example"} src={"/config/images/nft-image.gif"} />
+              </s.Container>
             <s.TextTitle
               style={{
                 textAlign: "center",
