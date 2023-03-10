@@ -143,7 +143,7 @@ export const SourceArea = styled.div`
   height: 100%;
   width: 100%;
   margin: 0 auto;
-  padding: 5px;
+  padding: 10px;
   background-color: #D1D5DB;
 `;
 

@@ -98,7 +98,7 @@ export const StyledImg = styled.img`
 
 export const StyledLink = styled.a`
   color: var(--secondary);
-  text-decoration: none;
+  // text-decoration: none;
 `;
 
 function App() {
@@ -263,8 +263,11 @@ function App() {
       <s.Container
         flex={1}
         ai={"center"}
-        style={{ padding: 24 }}
-        image={CONFIG.SHOW_BACKGROUND ? "/config/images/parallax-bg.gif" : null}
+        style={{
+          padding: 24,
+          backgroundColor: "#000000"
+        }}
+        image={CONFIG.SHOW_BACKGROUND ? "/config/images/" : null}
       >
         <s.Header>
           <s.LeftSideSection>
@@ -273,8 +276,8 @@ function App() {
             <a href="/"><s.Icon image={CONFIG.SHOW_BACKGROUND ? "/config/images/email_32x32.png" : null}></s.Icon></a>
           </s.LeftSideSection>
           <s.RightSideSection>
-            <s.Introduce>About</s.Introduce>
-            <s.Introduce>Team</s.Introduce>
+            <s.Introduce>Home</s.Introduce>
+            <s.Introduce>Sample</s.Introduce>
           </s.RightSideSection>
         </s.Header>
         <ResponsiveWrapper flex={1} style={{ padding: 24 }} test>
@@ -292,7 +295,7 @@ function App() {
           >
             <s.StyledLogo
               >
-              RoboPunksNFT
+              OnChainNFT
             </s.StyledLogo>
             <s.TextTitle
               style={{
@@ -302,7 +305,7 @@ function App() {
                 color: "var(--accent-text)",
               }}
             >
-              {data.totalSupply} / {CONFIG.MAX_SUPPLY}
+              Available: {data.totalSupply} / {CONFIG.MAX_SUPPLY}
             </s.TextTitle>
             <s.TextDescription
               style={{
@@ -311,7 +314,7 @@ function App() {
               }}
             >
               <StyledLink target={"_blank"} href={CONFIG.SCAN_LINK}>
-                {truncate(CONFIG.CONTRACT_ADDRESS, 15)}
+                Contract Address: {truncate(CONFIG.CONTRACT_ADDRESS, 15)}
               </StyledLink>
             </s.TextDescription>
             <s.SpacerSmall />
@@ -533,12 +536,14 @@ function App() {
               >
                 Resources
               </s.TextDescription>
+              <s.SpacerSmall/>
               <s.TextDescription
                 style={{
                   color: "var(--accent)",
                 }}
               >
-                GitHub: <a href="https://github.com/miyata09x0084/first-merkle">Web UI & Contract</a>
+                Etherscan: <a href="https://goerli.etherscan.io/address/0xba77f43fe7d80fad40a4d814bed177d8004ae89b">ERC721A</a><br/>
+                GitHub: <a href="https://github.com/miyata09x0084/first-merkle">WebUI & Contract</a>
               </s.TextDescription>
             </s.SourceArea>
         </s.Container>

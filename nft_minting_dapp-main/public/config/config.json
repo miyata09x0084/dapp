@@ -1,0 +1,18 @@
+{
+  "CONTRACT_ADDRESS": "0xBA77F43Fe7d80Fad40a4d814bEd177D8004ae89b",
+  "SCAN_LINK": "https://goerli.etherscan.io/address/0xba77f43fe7d80fad40a4d814bed177d8004ae89b#tokentxns",
+  "NETWORK": {
+    "NAME": "Goerli",
+    "SYMBOL": "Eth",
+    "ID": 5
+  },
+  "NFT_NAME": "Kangeki",
+  "SYMBOL": "KG",
+  "MAX_SUPPLY": 40,
+  "WEI_COST": 100000000000000,
+  "DISPLAY_COST": 0.0001,
+  "GAS_LIMIT": 285000,
+  "MARKETPLACE": "Opeansea",
+  "MARKETPLACE_LINK": "/",
+  "SHOW_BACKGROUND": true
+}

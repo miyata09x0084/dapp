@@ -81,13 +81,13 @@ export const connect = () => {
           });
           // Add listeners end
         } else {
-          dispatch(connectFailed(`Change network to ${CONFIG.NETWORK.NAME}.`));
+          dispatch(connectFailed(`ネットワークを ${CONFIG.NETWORK.NAME} に変更してください。`));
         }
       } catch (err) {
-        dispatch(connectFailed("Something went wrong."));
+        dispatch(connectFailed("問題が発生しました。"));
       }
     } else {
-      dispatch(connectFailed("Install Metamask."));
+      dispatch(connectFailed("メタマスクをインストールしてください。"));
     }
   };
 };
