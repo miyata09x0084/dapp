@@ -40,7 +40,7 @@ export const fetchData = () => {
         .call();
       let userMintedAmount = await store
         .getState()
-        .blockchain.smartContract.methods.userMintedAmount(blockchain.account)
+        .blockchain.smartContract.methods.getUserMintedAmount(blockchain.account)
         .call();
       let maxMintAmountPerTransaction = await store
         .getState()
