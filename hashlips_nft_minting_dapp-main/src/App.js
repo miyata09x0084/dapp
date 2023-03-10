@@ -15,27 +15,28 @@ const truncate = (input, len) =>
 
 export const StyledButton = styled.button`
   padding: 10px;
-  border-radius: 50px;
+  border-radius: 5px;
   border: none;
   background-color: var(--button);
-  padding: 10px;
+  padding: 20px;
   font-weight: bold;
   color: var(--secondary-text);
-  width: 100px;
+  width: 160px;
   cursor: pointer;
-  box-shadow: 0px 6px 0px -2px rgba(250, 250, 250, 0.3);
-  -webkit-box-shadow: 0px 6px 0px -2px rgba(250, 250, 250, 0.3);
-  -moz-box-shadow: 0px 6px 0px -2px rgba(250, 250, 250, 0.3);
+  box-shadow: 0px 2px 2px 1px #0F0F0F;
+  -webkit-box-shadow: 0px 2px 2px 1px #0F0F0F;
+  -moz-box-shadow: 0px 2px 2px 1px #0F0F0F;
   :active {
     box-shadow: none;
     -webkit-box-shadow: none;
     -moz-box-shadow: none;
   }
+  font-family: "Press Start 2P";
 `;
 
-export const StyledRoundButton = styled.button`
+export const StyledSquareButton = styled.button`
   padding: 10px;
-  border-radius: 100%;
+  border-radius: 5px;
   border: none;
   background-color: var(--primary);
   padding: 10px;
@@ -48,9 +49,9 @@ export const StyledRoundButton = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0px 4px 0px -2px rgba(250, 250, 250, 0.3);
-  -webkit-box-shadow: 0px 4px 0px -2px rgba(250, 250, 250, 0.3);
-  -moz-box-shadow: 0px 4px 0px -2px rgba(250, 250, 250, 0.3);
+  box-shadow: 0px 2px 2px 1px #0F0F0F;
+  -webkit-box-shadow: 0px 2px 2px 1px #0F0F0F;
+  -moz-box-shadow: 0px 2px 2px 1px #0F0F0F;
   :active {
     box-shadow: none;
     -webkit-box-shadow: none;
@@ -70,18 +71,19 @@ export const ResponsiveWrapper = styled.div`
   }
 `;
 
-export const StyledLogo = styled.img`
-  width: 200px;
+export const HeaderWrapper = styled.div`
+  display: flex;
+  flex: 1;
+  flex-direction: space-between;
+  align-items: stretched;
+  width: 100%;
   @media (min-width: 767px) {
-    width: 300px;
+    flex-direction: row;
   }
-  transition: width 0.5s;
-  transition: height 0.5s;
 `;
 
 export const StyledImg = styled.img`
   box-shadow: 0px 5px 11px 2px rgba(0, 0, 0, 0.7);
-  border: 4px dashed var(--secondary);
   background-color: var(--accent);
   border-radius: 100%;
   width: 200px;
@@ -174,7 +176,7 @@ function App() {
       })
       .once("error", (err) => {
         console.log(err);
-        setFeedback("Sorry, something went wrong please try again later.");
+        setFeedback("申し訳ありませんが、何か問題が発生しました。もう一度お試しください。");
         setClaimingNft(false);
       })
       .then((receipt) => {
@@ -197,18 +199,18 @@ function App() {
 
   const incrementMintAmount = () => {
     let newMintAmount = mintAmount + 1;
+    let maxMintAmountView;
     if (data.onlyAllowlisted == true) {
-      if (allowlistUserAmountData !== 0) {
-        if (allowlistUserAmountData > data.userMintedAmount) {
-          newMintAmount = allowlistUserAmountData - data.userMintedAmount;
-        } else {
-          newMintAmount = 1;
-        }
-    }
+      maxMintAmountView = Math.min(allowlistUserAmountData - data.userMintedAmount, data.maxMintAmountPerTransaction);
     } else {
-      if (newMintAmount > 3) {
-        newMintAmount = 3;
-      }
+      maxMintAmountView = Math.min(data.publicSaleMaxMintAmountPerAddress - data.userMintedAmount, data.maxMintAmountPerTransaction)
+    }
+
+    if (maxMintAmountView < newMintAmount ) {
+      newMintAmount = maxMintAmountView;
+    }
+    if (newMintAmount == 0) {
+      newMintAmount = 1;
     }
     setMintAmount(newMintAmount);
   };
@@ -254,19 +256,29 @@ function App() {
     getMerkleUserAmountData();
   }, [data.loading]);
 
+  console.log("data", data);
+
   return (
     <s.Screen>
       <s.Container
         flex={1}
         ai={"center"}
-        style={{ padding: 24, backgroundColor: "var(--primary)" }}
-        image={CONFIG.SHOW_BACKGROUND ? "/config/images/bg.png" : null}
+        style={{ padding: 24 }}
+        image={CONFIG.SHOW_BACKGROUND ? "/config/images/parallax-bg.gif" : null}
       >
-        <StyledLogo alt={"logo"} src={"/config/images/logo.png"} />
-        <s.SpacerSmall />
+        <s.Header>
+          <s.LeftSideSection>
+            <a href="/"><s.Icon image={CONFIG.SHOW_BACKGROUND ? "/config/images/facebook_32x32.png" : null}></s.Icon></a>
+            <a href="/"><s.Icon image={CONFIG.SHOW_BACKGROUND ? "/config/images/twitter_32x32.png" : null}></s.Icon></a>
+            <a href="/"><s.Icon image={CONFIG.SHOW_BACKGROUND ? "/config/images/email_32x32.png" : null}></s.Icon></a>
+          </s.LeftSideSection>
+          <s.RightSideSection>
+            <s.Introduce>About</s.Introduce>
+            <s.Introduce>Team</s.Introduce>
+          </s.RightSideSection>
+        </s.Header>
         <ResponsiveWrapper flex={1} style={{ padding: 24 }} test>
           <s.Container flex={1} jc={"center"} ai={"center"}>
-            <StyledImg alt={"example"} src={"/config/images/example.gif"} />
           </s.Container>
           <s.SpacerLarge />
           <s.Container
@@ -274,13 +286,14 @@ function App() {
             jc={"center"}
             ai={"center"}
             style={{
-              backgroundColor: "var(--accent)",
               padding: 24,
               borderRadius: 24,
-              border: "4px dashed var(--secondary)",
-              boxShadow: "0px 5px 11px 2px rgba(0,0,0,0.1)",
             }}
           >
+            <s.StyledLogo
+              >
+              RoboPunksNFT
+            </s.StyledLogo>
             <s.TextTitle
               style={{
                 textAlign: "center",
@@ -324,15 +337,15 @@ function App() {
                 <s.TextTitle
                   style={{ textAlign: "center", color: "var(--accent-text)" }}
                 >
-                  {CONFIG.SYMBOL} 1枚につき{CONFIG.DISPLAY_COST}{" "}
-                  {CONFIG.NETWORK.SYMBOL}.
+                  {/* {CONFIG.SYMBOL} 1枚につき{CONFIG.DISPLAY_COST}{" "}
+                  {CONFIG.NETWORK.SYMBOL}. */}
                 </s.TextTitle>
                 <s.SpacerXSmall />
-                <s.TextDescription
+                {/* <s.TextDescription
                   style={{ textAlign: "center", color: "var(--accent-text)" }}
                 >
                   別途ガス代がかかります.
-                </s.TextDescription>
+                </s.TextDescription> */}
                 <s.SpacerSmall />
                 {blockchain.account === "" ||
                 blockchain.smartContract === null ? (
@@ -341,6 +354,7 @@ function App() {
                       style={{
                         textAlign: "center",
                         color: "var(--accent-text)",
+                        fontSize: 17,
                       }}
                     >
                       {CONFIG.NETWORK.NAME} ネットワークに接続してください。
@@ -380,19 +394,26 @@ function App() {
                       {data.loading == true
                         ? "読み込み中です。しばらくお待ちください。"
                         : (data.paused == false
+                          // Only allowlisted
                           ? ( data.onlyAllowlisted == true
                             ? (allowlistUserAmountData == 0
                               ? "接続したウォレットはアローリストに登録されていません。"
                               : (0 < allowlistUserAmountData - data.userMintedAmount
                                 ? (feedback + "あと" + (allowlistUserAmountData - data.userMintedAmount) + "枚ミントできます。")
                                 : "ミントの上限枚数に達しました" ) )
-                            : feedback )
+                            // Public sale
+                            : ( 0 < data.publicSaleMaxMintAmountPerAddress - data.userMintedAmount
+                              ? (feedback + "あと" + (data.publicSaleMaxMintAmountPerAddress - data.userMintedAmount) + "枚ミントできます。")
+                              : "ミントの上限枚数に達しました" ) )
+                          // Paused
                           : "現在ミントは停止中です。")}
                     </s.TextDescription>
                     <s.SpacerMedium />
                     <s.Container ai={"center"} jc={"center"} fd={"row"}>
-                      <StyledRoundButton
-                        style={{ lineHeight: 0.4 }}
+                      <StyledSquareButton
+                        style={{
+                          lineHeight: 0.4,
+                        }}
                         disabled={claimingNft ? 1 : 0}
                         onClick={(e) => {
                           e.preventDefault();
@@ -400,18 +421,20 @@ function App() {
                         }}
                       >
                         -
-                      </StyledRoundButton>
-                      <s.SpacerMedium />
-                      <s.TextDescription
+                      </StyledSquareButton>
+                      <s.MintNumber
                         style={{
                           textAlign: "center",
-                          color: "var(--accent-text)",
+                          color: "var(--accent)",
+                          width:  "100px",
+                          backgroundColor: "#ffffff",
+                          border: "none",
+                          boxShadow: "0px 2px 2px 1px #0F0F0F",
                         }}
                       >
                         {mintAmount}
-                      </s.TextDescription>
-                      <s.SpacerMedium />
-                      <StyledRoundButton
+                      </s.MintNumber>
+                      <StyledSquareButton
                         disabled={claimingNft ? 1 : 0}
                         onClick={(e) => {
                           e.preventDefault();
@@ -419,7 +442,7 @@ function App() {
                         }}
                       >
                         +
-                      </StyledRoundButton>
+                      </StyledSquareButton>
                     </s.Container>
                     <s.SpacerSmall />
                     <s.Container ai={"center"} jc={"center"} fd={"row"}>
@@ -429,13 +452,17 @@ function App() {
                         disabled = {claimingNft
                                    ? 1
                                    : (data.paused == false
+                                    // Only allowlisted
                                     ? ( data.onlyAllowlisted == true
                                       ? (allowlistUserAmountData == 0
                                         ? 1
                                         : (0 < allowlistUserAmountData - data.userMintedAmount
                                           ? 0
                                           : 1 ) )
-                                      : 0 )
+                                      // Public sale
+                                      : ( 0 < data.publicSaleMaxMintAmountPerAddress - data.userMintedAmount
+                                        ? 0
+                                        : 1 ) )
                                     : 1)}
                         onClick={(e) => {
                           e.preventDefault();
@@ -446,13 +473,17 @@ function App() {
                         {claimingNft
                         ? "読み込み中"
                         : (data.paused == false
+                          // Only allowlisted
                           ? ( data.onlyAllowlisted == true
                             ? (allowlistUserAmountData == 0
                               ? "STOP"
                               : (0 < allowlistUserAmountData - data.userMintedAmount
                                 ? "MINT"
                                 : "STOP" ) )
-                            : "MINT" )
+                            // Public sale
+                            : ( 0 < data.publicSaleMaxMintAmountPerAddress - data.userMintedAmount
+                              ? "MINT"
+                              : "STOP" ) )
                           : "STOP")}
                       </StyledButton>
                     </s.Container>
@@ -464,31 +495,52 @@ function App() {
           </s.Container>
           <s.SpacerLarge />
           <s.Container flex={1} jc={"center"} ai={"center"}>
-            <StyledImg
-              alt={"example"}
-              src={"/config/images/example.gif"}
-            />
           </s.Container>
         </ResponsiveWrapper>
-        <s.SpacerMedium />
         <s.Container jc={"center"} ai={"center"} style={{ width: "70%" }}>
           <s.TextDescription
             style={{
               textAlign: "center",
               color: "var(--primary-text)",
+              maxWidth: "576px",
             }}
           >
-            正しいネットワークに接続されているか({CONFIG.NETWORK.NAME})、正しいアドレスに接続されているかをご確認ください。一度購入すると、この操作を元に戻すことはできません。
+            正しいネットワークに接続されているか({CONFIG.NETWORK.NAME})、正しいアドレスに接続されているかをご確認ください。一度購入すると、操作を元に戻すことはできません。
           </s.TextDescription>
           <s.SpacerSmall />
           <s.TextDescription
             style={{
               textAlign: "center",
               color: "var(--primary-text)",
+              maxWidth: "576px",
             }}
           >
             ガス代が低すぎると失敗することがあります。ガス代を高めに設定することをお勧めします。
           </s.TextDescription>
+        </s.Container>
+        <s.SpacerSmall />
+        <s.Container>
+            <s.SourceArea
+              style={{
+                maxWidth: "576px",
+            }}
+            >
+              <s.TextDescription
+                style={{
+                  color: "var(--accent)",
+                  fontWeight: "bold",
+                }}
+              >
+                Resources
+              </s.TextDescription>
+              <s.TextDescription
+                style={{
+                  color: "var(--accent)",
+                }}
+              >
+                GitHub: <a href="https://github.com/miyata09x0084/first-merkle">Web UI & Contract</a>
+              </s.TextDescription>
+            </s.SourceArea>
         </s.Container>
       </s.Container>
     </s.Screen>
