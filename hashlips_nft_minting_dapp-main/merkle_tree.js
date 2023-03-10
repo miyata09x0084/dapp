@@ -13,7 +13,7 @@ console.log("Allowlist Merkle Tree\n", merkleTree.toString());
 console.log("Root Hash ; \n", "0x" + rootHash.toString("hex"));
 
 const onlyFirst = allowlistAddresses.map( pick => pick[0] );
-const addressId = onlyFirst.indexOf(allowlistAddresses[0][0]);
+const addressId = onlyFirst.indexOf(allowlistAddresses[1][0]);
 const claiminingAddress = ethers.utils.solidityKeccak256(['address', 'uint256'], [allowlistAddresses[addressId][0], allowlistAddresses[addressId][1]]);
 console.log("claiminingAddress ; ", claiminingAddress)
 
