@@ -9,10 +9,11 @@ export const Screen = styled.div`
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  opacity: 0.85;
   z-index: 10;
   top: 0;
   left: 0;
+  letter-spacing: 0.03em;
+  padding-top: 76px;
 `;
 
 // Used for providing space between components
@@ -82,9 +83,9 @@ export const StyledLogo = styled.div`
   width: 100%;
   text-align: center;
   margin-top: 10px;
-  font-size: 48px;
+  font-size: 60px;
   color: #ffffff;
-  text-shadow: 0 5px #000000;
+  text-shadow: 0 5px 20px #000000;
   font-family: "Press Start 2P";
   word-wrap: break-word; /* 折り返しを行う */ 
 `;
@@ -98,9 +99,15 @@ export const MintNumber = styled.p`
 export const Header = styled.div`
   display: flex;
   width: 100%;
+  background-color: rgba(68, 68, 85, 0.7);
   justify-content: space-between;
   align-items: center;
-  padding: 20px 40px;
+  padding: 23px 40px;
+  margin: 0 auto;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
 `;
 
 export const LeftSideSection = styled.div`
@@ -115,9 +122,9 @@ export const RightSideSection = styled.div`
 `;
 
 export const Icon = styled.div`
-  width: 42px;
-  height: 42px;
-  margin-right: 35px;
+  width: 30px;
+  height: 30px;
+  margin-right: 20px;
   background-image: ${({ image }) => (image ? `url(${image})` : "none")};
   background-size: cover;
   background-position: center;
@@ -128,9 +135,20 @@ export const Icon = styled.div`
   }
 `;
 
+export const ResourceIcon = styled.div`
+  width: 18px;
+  height: 18px;
+  margin-right: 5px;
+  background-image: ${({ image }) => (image ? `url(${image})` : "none")};
+  background-size: cover;
+  background-position: center;
+  @media (max-width: 767px) {
+  }
+`;
+
 export const Introduce = styled.div`
-  margin-left: 35px;
-  font-size: 42px;
+  margin-left: 20px;
+  font-size: 30px;
   align-items: center;
   @media (max-width: 767px) {
     font-size: 26px;
@@ -142,8 +160,14 @@ export const SourceArea = styled.div`
   height: 100%;
   width: 100%;
   margin: 0 auto;
-  padding: 10px;
-  background-color: #D1D5DB;
+  padding: 20px;
+  background-color: var(--secondary);
+`;
+
+export const Horizon = styled.div`
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
 `;
 
 
