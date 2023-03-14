@@ -2,6 +2,7 @@
   "CONTRACT_ADDRESS": "0xBA77F43Fe7d80Fad40a4d814bEd177D8004ae89b",
   "CONTRACT_LINK": "https://goerli.etherscan.io/address/0xba77f43fe7d80fad40a4d814bed177d8004ae89b#tokentxns",
   "GITHUB_LINK": "https://github.com/miyata09x0084/first-merkle/tree/master",
+  "BLOG_LINK": "https://rio-blog.vercel.app/",
   "NETWORK": {
     "NAME": "Goerli",
     "SYMBOL": "Eth",
@@ -17,3 +18,4 @@
   "MARKETPLACE_LINK": "/",
   "SHOW_BACKGROUND": true
 }
+ 
