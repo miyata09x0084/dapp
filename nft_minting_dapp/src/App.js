@@ -5,6 +5,13 @@ import { fetchData } from "./redux/data/dataActions";
 import * as s from "./styles/globalStyles";
 import styled from "styled-components";
 import { allowlistAddresses } from "./allowlist";
+import {
+  createBrowserRouter,
+  RouterProvider,
+} from "react-router-dom";
+import Home from "./pages/Home";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faChevronRight } from '@fortawesome/free-solid-svg-icons'
 
 const { ethers } = require("ethers");
 const { MerkleTree } = require("merkletreejs");
@@ -17,15 +24,15 @@ export const StyledButton = styled.button`
   padding: 10px;
   border-radius: 5px;
   border: none;
-  background-color: var(--button);
+  background: linear-gradient(150deg, rgba(49,144,255,1) 0%, rgba(114,69,240,1) 100%);
   padding: 20px;
   font-weight: bold;
-  color: var(--secondary-text);
-  width: 160px;
+  color: var(--primary-text);
+  width: 190px;
   cursor: pointer;
-  box-shadow: 0px 2px 2px 1px #0F0F0F;
-  -webkit-box-shadow: 0px 2px 2px 1px #0F0F0F;
-  -moz-box-shadow: 0px 2px 2px 1px #0F0F0F;
+  box-shadow: 0px 2px 4px #111111;
+  -webkit-box-shadow: 0px 2px 4px #111111;
+  -moz-box-shadow: 0px 2px 4px #111111;
   :active {
     box-shadow: none;
     -webkit-box-shadow: none;
@@ -38,7 +45,7 @@ export const StyledSquareButton = styled.button`
   padding: 10px;
   border-radius: 5px;
   border: none;
-  background-color: var(--primary);
+  background: linear-gradient(-90deg, rgba(186,85,211,1) 0%, rgba(214,81,125,1) 100%);
   padding: 10px;
   font-weight: bold;
   font-size: 15px;
@@ -85,6 +92,7 @@ export const HeaderWrapper = styled.div`
 export const StyledImg = styled.img`
   background-color: var(--accent);
   width: 200px;
+  border-radius: 18%;
   @media (min-width: 900px) {
     width: 250px;
   }
@@ -95,8 +103,7 @@ export const StyledImg = styled.img`
 `;
 
 export const StyledLink = styled.a`
-  color: var(--secondary);
-  // text-decoration: none;
+  color: var(--primary-text);
 `;
 
 function App() {
@@ -109,7 +116,8 @@ function App() {
   const [allowlistUserAmountData, setAllowlistUserAmountData] = useState(0);
   const [CONFIG, SET_CONFIG] = useState({
     CONTRACT_ADDRESS: "",
-    SCAN_LINK: "",
+    CONTRACT_LINK: "",
+    GITHUB_LINK: "",
     NETWORK: {
       NAME: "",
       SYMBOL: "",
@@ -242,6 +250,17 @@ function App() {
     SET_CONFIG(config);
   };
 
+  const router = createBrowserRouter([
+    {
+      path: "/",
+      element: <div>Hello world!</div>,
+    },
+    {
+      path: "contacts/:contactId",
+      element: <Home />,
+    },
+  ]);
+
   useEffect(() => {
     getConfig();
   }, []);
@@ -258,27 +277,38 @@ function App() {
 
   return (
     <s.Screen>
+          <s.Header>
+            <s.LeftSideSection>
+              <a href="/"><s.Icon image={CONFIG.SHOW_BACKGROUND ? "/config/images/facebook_32x32.png" : null}></s.Icon></a>
+              <a href="/"><s.Icon image={CONFIG.SHOW_BACKGROUND ? "/config/images/twitter_32x32.png" : null}></s.Icon></a>
+              <a href="/"><s.Icon image={CONFIG.SHOW_BACKGROUND ? "/config/images/email_32x32.png" : null}></s.Icon></a>
+            </s.LeftSideSection>
+            <s.RightSideSection>
+              <s.Introduce>
+                <RouterProvider router={router} />
+              </s.Introduce>
+              <s.Introduce>
+                <StyledLink style={{ textDecoration: "none"}} href={"/"}>
+                    Home
+                </StyledLink>
+              </s.Introduce>
+              <s.Introduce>
+                <StyledLink style={{ textDecoration: "none"}} href={"/"}>
+                    Sample
+                </StyledLink>
+              </s.Introduce>
+            </s.RightSideSection>
+          </s.Header>
       <s.Container
         flex={1}
         ai={"center"}
         style={{
           padding: 24,
-          backgroundColor: "#000000"
+          backgroundColor: "ver(--primary)",
         }}
         image={CONFIG.SHOW_BACKGROUND ? "/config/images/" : null}
-      >
-        <s.Header>
-          <s.LeftSideSection>
-            <a href="/"><s.Icon image={CONFIG.SHOW_BACKGROUND ? "/config/images/facebook_32x32.png" : null}></s.Icon></a>
-            <a href="/"><s.Icon image={CONFIG.SHOW_BACKGROUND ? "/config/images/twitter_32x32.png" : null}></s.Icon></a>
-            <a href="/"><s.Icon image={CONFIG.SHOW_BACKGROUND ? "/config/images/email_32x32.png" : null}></s.Icon></a>
-          </s.LeftSideSection>
-          <s.RightSideSection>
-            <s.Introduce>Home</s.Introduce>
-            <s.Introduce>Sample</s.Introduce>
-          </s.RightSideSection>
-        </s.Header>
-        <ResponsiveWrapper flex={1} style={{ padding: 24 }} test>
+        >
+        <ResponsiveWrapper flex={1} style={{ padding: 24 }}>
           <s.Container flex={1} jc={"center"} ai={"center"}>
           </s.Container>
           <s.SpacerLarge />
@@ -290,35 +320,44 @@ function App() {
               padding: 24,
               borderRadius: 24,
             }}
-          >
-            <s.StyledLogo
-              >
-              OnChainNFT
-            </s.StyledLogo>
-            <s.SpacerSmall />
+            >
+              <s.StyledLogo
+                >
+                <s.Animation>
+                  ThanksNFT
+                </s.Animation>
+              </s.StyledLogo>
+            <s.SpacerMedium />
+            <s.Animation>
               <s.Container flex={1} jc={"center"} ai={"center"}>
                 <StyledImg alt={"example"} src={"/config/images/nft-image.gif"} />
               </s.Container>
-            <s.TextTitle
-              style={{
-                textAlign: "center",
-                fontSize: 50,
-                fontWeight: "bold",
-                color: "var(--accent-text)",
-              }}
-            >
-              Available: {data.totalSupply} / {CONFIG.MAX_SUPPLY}
-            </s.TextTitle>
-            <s.TextDescription
-              style={{
-                textAlign: "center",
-                color: "var(--primary-text)",
-              }}
-            >
-              <StyledLink target={"_blank"} href={CONFIG.SCAN_LINK}>
-                ContractAddress: {truncate(CONFIG.CONTRACT_ADDRESS, 15)}
-              </StyledLink>
-            </s.TextDescription>
+            </s.Animation>
+            <s.SpacerMedium />
+            <s.Animation>
+              <s.TextTitle
+                style={{
+                  textAlign: "center",
+                  fontSize: 38,
+                  fontWeight: "bold",
+                  color: "var(--accent-text)",
+                }}
+              >
+                Available {data.totalSupply}/{CONFIG.MAX_SUPPLY}
+              </s.TextTitle>
+            </s.Animation>
+            <s.Animation>
+              <s.TextDescription
+                style={{
+                  textAlign: "center",
+                  color: "var(--primary-text)",
+                }}
+              >
+                <StyledLink style={{ color: "var(--primary-text)" }} target={"_blank"} href={CONFIG.CONTRACT_LINK}>
+                  ContractAddress {truncate(CONFIG.CONTRACT_ADDRESS, 15)}
+                </StyledLink>
+              </s.TextDescription>
+            </s.Animation>
             <s.SpacerSmall />
             {Number(data.totalSupply) >= CONFIG.MAX_SUPPLY ? (
               <>
@@ -339,13 +378,13 @@ function App() {
               </>
             ) : (
               <>
-                <s.TextTitle
+                {/* <s.TextTitle
                   style={{ textAlign: "center", color: "var(--accent-text)" }}
-                >
+                > */}
                   {/* {CONFIG.SYMBOL} 1枚につき{CONFIG.DISPLAY_COST}{" "}
                   {CONFIG.NETWORK.SYMBOL}. */}
-                </s.TextTitle>
-                <s.SpacerXSmall />
+                {/* </s.TextTitle> */}
+                {/* <s.SpacerXSmall /> */}
                 {/* <s.TextDescription
                   style={{ textAlign: "center", color: "var(--accent-text)" }}
                 >
@@ -355,38 +394,49 @@ function App() {
                 {blockchain.account === "" ||
                 blockchain.smartContract === null ? (
                   <s.Container ai={"center"} jc={"center"}>
-                    <s.TextDescription
-                      style={{
-                        textAlign: "center",
-                        color: "var(--accent-text)",
-                        fontSize: 17,
-                      }}
-                    >
-                      {CONFIG.NETWORK.NAME} ネットワークに接続してください。
-                    </s.TextDescription>
+                    <s.Animation>
+                      <s.TextDescription
+                        style={{
+                          textAlign: "center",
+                          color: "var(--accent-text)",
+                          fontSize: 17,
+                        }}
+                      >
+                        {CONFIG.NETWORK.NAME}ネットワークに接続してください。
+                      </s.TextDescription>
+                    </s.Animation>
                     <s.SpacerSmall />
-                    <StyledButton
-                      onClick={(e) => {
-                        e.preventDefault();
-                        dispatch(connect());
-                        getData();
-                      }}
-                    >
-                      CONNECT
-                    </StyledButton>
-                    {blockchain.errorMsg !== "" ? (
-                      <>
-                        <s.SpacerSmall />
-                        <s.TextDescription
-                          style={{
-                            textAlign: "center",
-                            color: "var(--accent-text)",
-                          }}
-                        >
-                          {blockchain.errorMsg}
-                        </s.TextDescription>
-                      </>
-                    ) : null}
+                    <s.Animation>
+                      <StyledButton
+                        onClick={(e) => {
+                          e.preventDefault();
+                          dispatch(connect());
+                          getData();
+                        }}
+                      >
+                        <s.ButtonContent>
+                          <s.Container>
+                            CONNECT
+                          </s.Container>
+                          <FontAwesomeIcon icon={faChevronRight} style={{ fontSize: "11px", marginLeft: "12px", display: "flex", alignItems: "center" }} />
+                        </s.ButtonContent>
+                      </StyledButton>
+                    </s.Animation>
+                      {blockchain.errorMsg !== "" ? (
+                        <>
+                          <s.SpacerSmall />
+                          <s.Animation>
+                            <s.TextDescription
+                              style={{
+                                textAlign: "center",
+                                color: "var(--primary-text)",
+                              }}
+                            >
+                              {blockchain.errorMsg}
+                            </s.TextDescription>
+                          </s.Animation>
+                        </>
+                      ) : null}
                   </s.Container>
                 ) : (
                   <>
@@ -503,51 +553,82 @@ function App() {
           </s.Container>
         </ResponsiveWrapper>
         <s.Container jc={"center"} ai={"center"} style={{ width: "70%" }}>
-          <s.TextDescription
-            style={{
-              textAlign: "center",
-              color: "var(--primary-text)",
-              maxWidth: "576px",
-            }}
-          >
-            正しいネットワークに接続されているか({CONFIG.NETWORK.NAME})、正しいアドレスに接続されているかをご確認ください。一度購入すると、操作を元に戻すことはできません。
-          </s.TextDescription>
-          <s.SpacerSmall />
-          <s.TextDescription
-            style={{
-              textAlign: "center",
-              color: "var(--primary-text)",
-              maxWidth: "576px",
-            }}
-          >
-            ガス代が低すぎると失敗することがあります。ガス代を高めに設定することをお勧めします。
-          </s.TextDescription>
-        </s.Container>
-        <s.SpacerSmall />
-        <s.Container>
-            <s.SourceArea
+          <s.Animation>
+            <s.TextDescription
               style={{
+                textAlign: "center",
+                color: "var(--primary-text)",
                 maxWidth: "576px",
-            }}
+              }}
             >
-              <s.TextDescription
+              正しいネットワークに接続されているか({CONFIG.NETWORK.NAME})、正しいアドレスに接続されているかをご確認ください。一度購入すると、操作を元に戻すことはできません。
+            </s.TextDescription>
+          </s.Animation>
+          <s.SpacerSmall />
+          <s.Animation>
+            <s.TextDescription
+              style={{
+                textAlign: "center",
+                color: "var(--primary-text)",
+                maxWidth: "576px",
+              }}
+            >
+              ガス代が低すぎると失敗することがあります。ガス代を高めに設定することをお勧めします。
+            </s.TextDescription>
+          </s.Animation>
+        </s.Container>
+        <s.SpacerLarge />
+        <s.SpacerLarge />
+        <s.Container>
+              <s.SourceArea
                 style={{
-                  color: "var(--accent)",
-                  fontWeight: "bold",
+                  maxWidth: "576px",
                 }}
-              >
-                Resources
-              </s.TextDescription>
-              <s.SpacerSmall/>
-              <s.TextDescription
-                style={{
-                  color: "var(--accent)",
-                }}
-              >
-                Etherscan: <a href="https://goerli.etherscan.io/address/0xba77f43fe7d80fad40a4d814bed177d8004ae89b">ERC721A</a><br/>
-                GitHub: <a href="https://github.com/miyata09x0084/first-merkle">WebUI & Contract</a>
-              </s.TextDescription>
-            </s.SourceArea>
+                >
+                <s.SpacerMedium/>
+                <s.Animation>
+                <s.TextDescription
+                  style={{
+                    color: "var(--primary-text)",
+                    fontWeight: "bold",
+                  }}
+                >
+                  Resources
+                </s.TextDescription>
+                <s.SpacerSmall/>
+                <s.TextDescription
+                  style={{
+                    color: "var(--primary-text)",
+                  }}
+                >
+                  <s.Horizon
+                    styled={{
+                      marginBottom: "8px",
+                      }}
+                  >
+                    <s.ResourceIcon image={CONFIG.SHOW_BACKGROUND ? "/config/images/etherscan-logo-circle.png" : null}></s.ResourceIcon>
+                    Etherscan:
+                    <StyledLink target={"_blank"} href={CONFIG.CONTRACT_LINK}>
+                      ERC721A
+                    </StyledLink>
+                  </s.Horizon>
+                  <s.Horizon>
+                    <s.ResourceIcon image={CONFIG.SHOW_BACKGROUND ? "/config/images/github-mark.png" : null}></s.ResourceIcon>
+                    GitHub:
+                    <StyledLink target={"_blank"} href={CONFIG.GITHUB_LINK}>
+                      ArtEngine & WebUI & Contract
+                    </StyledLink>
+                  </s.Horizon>
+                  <s.Horizon>
+                    <s.ResourceIcon image={CONFIG.SHOW_BACKGROUND ? "/config/images/blog.png" : null}></s.ResourceIcon>
+                    <StyledLink target={"_blank"} href={CONFIG.BLOG_LINK}>
+                      Blog
+                    </StyledLink>
+                  </s.Horizon>
+                </s.TextDescription>
+            </s.Animation>
+                <s.SpacerMedium/>
+              </s.SourceArea>
         </s.Container>
       </s.Container>
     </s.Screen>
