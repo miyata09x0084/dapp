@@ -1,16 +1,16 @@
 {
-  "CONTRACT_ADDRESS": "0xBA77F43Fe7d80Fad40a4d814bEd177D8004ae89b",
-  "CONTRACT_LINK": "https://goerli.etherscan.io/address/0xba77f43fe7d80fad40a4d814bed177d8004ae89b#tokentxns",
+  "CONTRACT_ADDRESS": "0x57aC878Cc4851d4124014E0F77f15b9Bb57b1185",
+  "CONTRACT_LINK": "https://polygonscan.com/address/0x57ac878cc4851d4124014e0f77f15b9bb57b1185#code",
   "GITHUB_LINK": "https://github.com/miyata09x0084/first-merkle/tree/master",
   "BLOG_LINK": "https://rio-blog.vercel.app/",
   "NETWORK": {
-    "NAME": "Goerli",
-    "SYMBOL": "Eth",
-    "ID": 5
+    "NAME": "Polygon",
+    "SYMBOL": "Matic",
+    "ID": 137
   },
-  "NFT_NAME": "Kangeki",
-  "SYMBOL": "KG",
-  "MAX_SUPPLY": 40,
+  "NFT_NAME": "Generative Block",
+  "SYMBOL": "GB",
+  "MAX_SUPPLY": 30,
   "WEI_COST": 100000000000000,
   "DISPLAY_COST": 0.0001,
   "GAS_LIMIT": 285000,
@@ -18,4 +18,3 @@
   "MARKETPLACE_LINK": "/",
   "SHOW_BACKGROUND": true
 }
- 

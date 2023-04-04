@@ -1,0 +1,7 @@
+{
+    "projectName": "Nft_minting_dapp",
+    "namespace": "Nft_minting_dapp.Contracts",
+    "lang": 0,
+    "autoCodeGen": true,
+    "projectPath": "../"
+}

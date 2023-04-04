@@ -12,8 +12,13 @@ export const Screen = styled.div`
   z-index: 10;
   top: 0;
   left: 0;
-  letter-spacing: 0.03em;
-  padding-top: 76px;
+  letter-spacing: 0.05em;
+  background-color: var(--primary);
+  // background: linear-gradient(95deg, rgba(255,255,255,1) 50%, rgba(213,229,254,1) 100%);
+  // background-image:
+  //   linear-gradient(to right, #ffffff 1px, transparent 1px),
+  //   linear-gradient(to bottom, #ffffff 1px, transparent 1px);
+  // background-size: 100px 100px;
 `;
 
 // Used for providing space between components
@@ -84,10 +89,13 @@ export const StyledLogo = styled.div`
   text-align: center;
   margin-top: 10px;
   font-size: 60px;
-  color: #ffffff;
-  text-shadow: 0 5px 20px #000000;
+  color: var(--logo);
   font-family: "Press Start 2P";
-  word-wrap: break-word; /* 折り返しを行う */ 
+  word-wrap: break-word; /* 折り返しを行う */
+  @media (max-width: 767px) {
+    margin-top: 0px;
+    font-size: 40px;
+  }
 `;
 
 export const MintNumber = styled.p`
@@ -98,16 +106,15 @@ export const MintNumber = styled.p`
 
 export const Header = styled.div`
   display: flex;
-  width: 100%;
-  background-color: rgba(68, 68, 85, 0.7);
+  width: 767px;
   justify-content: space-between;
   align-items: center;
-  padding: 23px 40px;
+  padding: 40px 0px;
   margin: 0 auto;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
+  @media (max-width: 767px) {
+    width: 100%;
+    padding: 30px 24px;
+  }
 `;
 
 export const LeftSideSection = styled.div`
@@ -122,22 +129,22 @@ export const RightSideSection = styled.div`
 `;
 
 export const Icon = styled.div`
-  width: 30px;
-  height: 30px;
-  margin-right: 20px;
+  width: 22px;
+  height: 22px;
+  margin-right: 11px;
   background-image: ${({ image }) => (image ? `url(${image})` : "none")};
   background-size: cover;
   background-position: center;
   @media (max-width: 767px) {
-    width: 26px;
-    height: 26px;
-    margin-right: 20px;
+    width: 22px;
+    height: 22px;
+    margin-right: 11px;
   }
 `;
 
 export const ResourceIcon = styled.div`
-  width: 18px;
-  height: 18px;
+  width: 16px;
+  height: 16px;
   margin-right: 5px;
   background-image: ${({ image }) => (image ? `url(${image})` : "none")};
   background-size: cover;
@@ -148,11 +155,12 @@ export const ResourceIcon = styled.div`
 
 export const Introduce = styled.div`
   margin-left: 20px;
-  font-size: 30px;
+  font-size: 22px;
   align-items: center;
+  color: var(--primary-text);
   @media (max-width: 767px) {
-    font-size: 26px;
-    margin-left: 20px;
+    font-size: 22px;
+    margin-left: 11px;
   }
 `;
 
@@ -160,14 +168,34 @@ export const SourceArea = styled.div`
   height: 100%;
   width: 100%;
   margin: 0 auto;
-  padding: 20px;
-  background-color: var(--secondary);
+  border-radius: 10px;
+  padding: 0 27px;
 `;
 
 export const Horizon = styled.div`
   display: flex;
   align-items: center;
-  margin-bottom: 5px;
 `;
+
+export const ButtonContent = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--secondary-text);
+`;
+
+export const Animation = styled.div`
+  @keyframes slideInFromBottom {
+    0% {
+      transform: translateY(35%);
+    }
+    100% {
+      transform: translateY(0);
+    }
+  }
+  animation: slideInFromBottom 0.6s ease-out;
+`;
+
+
 
 

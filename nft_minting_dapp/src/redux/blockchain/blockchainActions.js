@@ -87,7 +87,7 @@ export const connect = () => {
         dispatch(connectFailed("問題が発生しました。"));
       }
     } else {
-      dispatch(connectFailed("メタマスクをインストールしてください。"));
+      dispatch(connectFailed("Install Metamask."));
     }
   };
 };

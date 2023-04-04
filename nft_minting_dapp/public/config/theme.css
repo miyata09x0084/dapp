@@ -1,11 +1,11 @@
 :root {
-  --primary: #ffffff;
-  --primary-text: #19191C;
-  --secondary: #ffffff;
-  --secondary-text: #ffffff;
-  --accent: #000000;
-  --accent-text: #19191C;
-  --button: #7245F0;
-  --logo: #ffffff;
+  --primary: #f2f2f2;
+  --primary-text: #333333;
+  --secondary: #fefefe;
+  --secondary-text: #f2f2f2;
+  --accent: #333333;
+  --accent-text: #333333;
+  --button: #14b8a6;
+  --logo: #14b8a6;
 }
 
